@@ -138,6 +138,8 @@ components:
       required:
         - id
         - name
+        - visibility
+        - questions
       properties:
         id:
           type: "integer"
@@ -146,3 +148,51 @@ components:
         name:
           type: string
           example: "Grundlagen der Programmierung, Woche 3"
+        visibility:
+          type: string
+          description: "Visibility status"
+          enum:
+          - "hidden"
+          - "readOnly"
+          - "active"
+        quiestions:
+          type: "array"
+          items: 
+            $ref: "#/components/schemas/Question"
+    Question:
+      requeired:
+        - id
+        - name
+        - visibility
+        - answers
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 123
+        name:
+          type: string
+          example: "Wie schwer waren die Aufgaben?"
+        visibility:
+          type: string
+          description: "Visibility status"
+          enum:
+          - "hidden"
+          - "readOnly"
+          - "active"
+        answers:
+          type: "array"
+          items: 
+            $ref: "#/components/schemas/Answer"
+    Answer:
+      required:
+        - id
+        - answer
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 123
+        answer:
+          type: string
+          example: "Leicht"
