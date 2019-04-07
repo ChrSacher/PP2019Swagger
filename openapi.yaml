@@ -38,7 +38,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/InventoryItem'
+                  $ref: '#/components/schemas/Course'
         400:
           description: bad input parameter
   /courses/page/{pageNumber}:
@@ -46,19 +46,19 @@ paths:
       tags:
       - User
       - Course
-      summary: returns a list of courses
-      description: |
-      This will return a list of courses
-      operationId: courses
+      summary: returns a page of results of all aviable courses
+      description: This will  return a page of results of all aviable courses
+      operationId: coursesPage
       parameters:
-      - name: searchString
-        in: query
-        description: pass an optional search string for looking up inventory
-        required: false
+      - name: pageNumber
+        in: parameter
+        description: Number of which page to get from all courses
+        example: 2
+        required: true
         style: form
         explode: true
         schema:
-          type: string
+          type: int64
       responses:
         200:
           description: search results matching criteria
@@ -67,7 +67,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/InventoryItem'
+                  $ref: '#/components/schemas/Course'
         400:
           description: bad input parameter          
 components:
