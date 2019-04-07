@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Simple Inventory API
-  description: This is a simple API
+  title: Feedback System
+  description: Feedback System for Uni lectures
   contact:
     email: you@your-company.com
   license:
@@ -9,53 +9,27 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/PP2019/FeedbackBackend/1.0.0
-  description: SwaggerHub API Auto Mocking
+- url: localhost:8080
+  description: Localhosted server
 tags:
-- name: admins
-  description: Secured Admin-only calls
-- name: developers
-  description: Operations available to regular developers
+- name: Teacher
+  description: Operations only aviable to logged in Teachers
+- name: User
+  description: Operations only aviable to logged in Users
+- name: Any
+  description: Operations aviable to anyone
+- name: Course
+  description: Operations belonging to courses
 paths:
-  /inventory:
+  /courses:
     get:
       tags:
-      - developers
-      summary: searches inventorydsf
+      - User
+      - Course
+      summary: returns a list of courses
       description: |
-        By passing in the appropriate options, you can search for
-        available inventory in the systemdsf
-      operationId: searchInventory
-      parameters:
-      - name: searchString
-        in: query
-        description: pass an optional search string for looking up inventory
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: skip
-        in: query
-        description: number of records to skip for pagination
-        required: false
-        style: form
-        explode: true
-        schema:
-          minimum: 0
-          type: integer
-          format: int32
-      - name: limit
-        in: query
-        description: maximum number of records to return
-        required: false
-        style: form
-        explode: true
-        schema:
-          maximum: 50
-          minimum: 0
-          type: integer
-          format: int32
+      This will return a list of courses
+      operationId: courses
       responses:
         200:
           description: search results matching criteria
@@ -67,25 +41,35 @@ paths:
                   $ref: '#/components/schemas/InventoryItem'
         400:
           description: bad input parameter
-    post:
+  /courses/page/{pageNumber}:
+    get:
       tags:
-      - admins
-      summary: adds an inventory item
-      description: Adds an item to the system
-      operationId: addInventory
-      requestBody:
-        description: Inventory item to add
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InventoryItem'
+      - User
+      - Course
+      summary: returns a list of courses
+      description: |
+      This will return a list of courses
+      operationId: courses
+      parameters:
+      - name: searchString
+        in: query
+        description: pass an optional search string for looking up inventory
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
       responses:
-        201:
-          description: item created
+        200:
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryItem'
         400:
-          description: invalid input, object invalid
-        409:
-          description: an existing item already exists
+          description: bad input parameter          
 components:
   schemas:
     InventoryItem:
