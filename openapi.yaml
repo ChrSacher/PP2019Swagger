@@ -27,8 +27,7 @@ paths:
       - User
       - Course
       summary: returns a list of courses
-      description: |
-      This will return a list of courses
+      description: This will return a list of courses
       operationId: courses
       responses:
         200:
